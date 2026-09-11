@@ -1,5 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
+import pickle
 import time
 
 headers = {"User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"}
@@ -38,7 +39,7 @@ def GetVideoUrl(id, cpi):
         return src
     return None
 
-def GetVideos():
+def GetVideosFromDownload():
     vids = {}
     error_count = 0
     for p in range(100):
@@ -72,7 +73,23 @@ def GetVideos():
             continue
     return vids
 
+def GetVideosFromFile():
+    vids = None
+    try:
+        with open("vid_data.pkl", "rb") as f:
+            vids = pickle.load(f)
+    except Exception as e:
+        print("Error while loading.")
+    return vids
+
 if __name__ == "__main__":
-    start_time = time.time()
-    vids = GetVideos()
-    print("ended, total time spent: ", time.time()-start_time)
+    if (input("wanna rewrite the video data file? (y/n) > ").lower()=="y"):
+        start_time = time.time()
+        vids = GetVideosFromDownload()
+        with open("vid_data.pkl", "wb") as f:
+            pickle.dump(vids, f)
+        print("ended, total time spent: ", time.time()-start_time)
+    else:
+        start_time = time.time()
+        vids = GetVideosFromFile()
+        print("loaded, total time spent: ", time.time()-start_time)
