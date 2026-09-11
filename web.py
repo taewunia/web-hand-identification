@@ -1,5 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
+import time
 
 headers = {"User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"}
 
@@ -70,3 +71,8 @@ def GetVideos():
                 break
             continue
     return vids
+
+if __name__ == "__main__":
+    start_time = time.time()
+    vids = GetVideos()
+    print("ended, total time spent: ", time.time()-start_time)
