@@ -76,17 +76,17 @@ def GetVideosFromDownload():
 def GetVideosFromFile():
     vids = None
     try:
-        with open("vid_data.pkl", "rb") as f:
+        with open("./data/vid_data.pkl", "rb") as f:
             vids = pickle.load(f)
     except Exception as e:
-        print("Error while loading.")
+        print(f"Error while loading: {e}")
     return vids
 
 if __name__ == "__main__":
     if (input("wanna rewrite the video data file? (y/n) > ").lower()=="y"):
         start_time = time.time()
         vids = GetVideosFromDownload()
-        with open("vid_data.pkl", "wb") as f:
+        with open("../data/vid_data.pkl", "wb") as f:
             pickle.dump(vids, f)
         print("ended, total time spent: ", time.time()-start_time)
     else:

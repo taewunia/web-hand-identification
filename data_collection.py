@@ -1,7 +1,27 @@
 import cv2
 import mediapipe as mp
 import numpy as np
+from utills.web import GetVideosFromFile, GetVideoUrl
 
+
+# 국립국어원에서 추출한 MP4 영상 URL
+video_url = GetVideoUrl('01a13035-b352-4375-ae83-d7e5c8c4618b', '0')
+
+# URL을 바로 VideoCapture에 전달
+cap = cv2.VideoCapture('https://sldict.korean.go.kr/multimedia/multimedia_files/convert/20191022/630116/MOV000235141_700X466.mp4')
+
+while cap.isOpened():
+    ret, frame = cap.read()
+    if not ret:
+        break
+
+    cv2.imshow("Sign Video Stream", frame)
+
+    if cv2.waitKey(30) & 0xFF == ord("q"):
+        break
+
+cap.release()
+cv2.destroyAllWindows()
 mp_hands = mp.solutions.hands
 mp_drawing = mp.solutions.drawing_utils
 hands = mp_hands.Hands(max_num_hands=1, min_detection_confidence=0.5, min_tracking_confidence=0.5)
